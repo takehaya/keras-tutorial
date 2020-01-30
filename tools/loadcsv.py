@@ -33,6 +33,7 @@ class NncData:
         y_label = np.asarray(ty)
         x_data = x_data.astype('float32')
         x_data = x_data / 255.0
+        y_label = y_label.astype('float32')
         if 1 < category:
             y_label = np_utils.to_categorical(y_label, category)
 

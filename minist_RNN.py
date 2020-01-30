@@ -24,37 +24,46 @@ def mnist():
         height=28,
         category=NB_CLASSES,
     )
-    x_train = x_train.reshape(x_train.shape[0], 28, 28)
-    x_test = x_test.reshape(x_test.shape[0], 28, 28)
-    train_X = x_train
-    test_X = x_test
-    train_Y = y_train
-    test_Y = y_test
+    train_X = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2])
+    test_X = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2])
+    # train_X = x_train
+    # test_X = x_test
+    # train_Y = y_train.reshape(y_train.shape[0], x_train.shape[1], x_train.shape[2])
+    # # test_Y = y_test.reshape(y_test.shape[0], x_test.shape[1], x_test.shape[2])
+    train_Y = np.tile(y_train, 28).reshape(y_train.shape[0], 28, NB_CLASSES)
+    test_Y = np.tile(y_test, 28).reshape(y_test.shape[0], 28, NB_CLASSES)
+    # train_Y = y_train
+    # test_Y = y_test
 
     print('x_train shape:', x_train.shape)
     print(train_X.shape[0], 'train samples')
+    # print(train_X[0][:10], 'many train samples')
+
     print(train_X.shape[1:], 'train samples')
     print('hogehoge samples')
 
-    print(train_X.shape, 'test samples')
-    print(test_X.shape, 'train samples')
-    print(train_Y.shape, 'train samples')
+    print(train_X.shape, 'train_X samples')
+    print(train_X[0].shape, 'train_X samples')
 
-    print(test_Y.shape, 'test samples')
+    print(test_X.shape, 'test_X samples')
+    print(test_X[0].shape, 'train_X samples')
+
+    print(train_Y.shape, 'train_Y samples')
+
+    print(test_Y.shape, 'test_Y samples')
 
     # RNN-Elman
     dim_in = 28
-    dim_out = 1
     length = 28
     n_hidden = 128
     batch_size = 64
-    epochs = 100
+    epochs = 200
 
     model = Sequential()
-    model.add(SimpleRNN(n_hidden, input_shape=(dim_in, length), return_sequences=True))
-    model.add(TimeDistributed(Dense(dim_out)))
+    model.add(SimpleRNN(n_hidden, input_shape=(length, dim_in), return_sequences=True))
+    model.add(TimeDistributed(Dense(NB_CLASSES)))
     # model.add(Flatten())
-    model.add(Activation('softmax'))
+    # model.add(Activation('softmax'))
 
     model.compile(
         loss='binary_crossentropy',
@@ -69,25 +78,28 @@ def mnist():
         batch_size=batch_size,
         epochs=epochs,
         verbose=1,
-        validation_data=(test_X, test_Y),
+        validation_data=(test_X, test_Y)
     )
 
     score = model.evaluate(test_X, test_Y, verbose=1)
     print('正解率=', score[1], 'loss=', score[0])
 
-    model.save('keras_mnist-RNN-ElmanNet_model.h5')# モデル構造と重みパラメータを含む
+    # model.save('keras_mnist-RNN-ElmanNet_model.h5')# モデル構造と重みパラメータを含む
 
 
     # ⑥-2 学習経過をグラフに記録
     # 正解率の推移をプロット
     plt.plot(hist.history['acc'])
-    plt.plot(hist.history['val_acc'])
+    if "val_acc" in hist.history.keys():
+        plt.plot(hist.history['val_acc'])
     plt.title('Accuracy')
     plt.legend(['train', 'test'], loc='upper left')
     plt.show()
     # ロスの推移をプロット
     plt.plot(hist.history['loss'])
-    plt.plot(hist.history['val_loss'])
+    if "val_loss" in hist.history.keys():
+        plt.plot(hist.history['val_loss'])
     plt.title('Loss')
     plt.legend(['train', 'test'], loc='upper left')
     plt.show()
+
