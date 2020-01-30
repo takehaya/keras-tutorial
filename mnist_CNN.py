@@ -6,8 +6,8 @@ import numpy as np
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Flatten
-from keras.layers import Conv2D, AveragePooling2D, MaxPooling2D
-from keras.optimizers import SGD, Adam, Adadelta, RMSprop
+from keras.layers import Conv2D, MaxPooling2D
+from keras.optimizers import Adam, RMSprop
 from keras.utils import np_utils
 import matplotlib.pyplot as plt
 
@@ -19,15 +19,11 @@ def mnist():
     nnc = nd.NncData()
     x_train, x_test, y_train, y_test = nnc.load_nnc_image('./tools/mnist_test.csv', width=28, height=28)
 
-    NB_CLASSES = 10  # number of outputs = number of digits
-
 
     image_rows = 28  # 画像縦の画素数
     image_cols = 28  # 画像横の画素数
     image_color = 1  # 画素の色数1　グレースケール[0,255]
     image_shape = (image_rows, image_cols, image_color)  # 画像のデータ形式
-    image_size = image_rows * image_cols * image_color  # 画像のニューロン数
-    input_size = image_size  # 変換する画像のデータ形式(入力層のニューロン数)
 
     output_size = 10  # 画像10分類が目標(出力層のニューロン数)
 
@@ -35,18 +31,7 @@ def mnist():
     test_X = x_test
     train_Y = y_train
     test_Y = y_test
-    # データの前処理(1)(2)(3)
-    # (1)「MNIST」のデータを三次元配列に整形
-    # train_X = x_train.reshape(-1, image_rows, image_cols, image_color)
-    # test_X = x_test.reshape(-1, image_rows, image_cols, image_color)
-    # (2)「MNIST」の画素データを正規化
-    # train_X = train_X.astype('float32') / 255
-    # test_X = test_X.astype('float32') / 255
-    # (3)「MNIST」の10分類のラベルデータをone-hotベクトルに直す
-    # train_Y = to_categorical(y_train.astype('int32'), output_size)
-    # test_Y = to_categorical(y_test.astype('int32'), output_size)
 
-    # before
 
     # 畳み込み層のあるCNN-LeNet
     model = Sequential()
@@ -75,16 +60,24 @@ def mnist():
     model.add(Dense(output_size, activation='softmax'))  # 出力層を追加
 
 
-    model.compile(loss='categorical_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
-    hist = model.fit(train_X, train_Y, batch_size=128, epochs=12, verbose=1, validation_data=(test_X, test_Y))
+    model.compile(
+        loss='categorical_crossentropy',
+        optimizer=RMSprop(),
+        metrics=['accuracy']
+    )
+    hist = model.fit(
+        train_X,
+        train_Y,
+        batch_size=128,
+        epochs=12,
+        verbose=1,
+        validation_data=(test_X, test_Y)
+    )
 
-    # ⑤分類器「畳み込み層のあるCNN」でテストを実行
     score = model.evaluate(test_X, test_Y, verbose=1)
     print('正解率=', score[1], 'loss=', score[0])
-    # ⑥結果の出力
-    # ⑥-時間をかけた訓練結果のモデル保存
-    # 場所はカレントディレクトリに保存
-    model.save('keras_mnist-CNN-LeNet_model.h5')# モデル構造と重みパラメータを含む
+
+    model.save('keras_mnist-CNN-LeNet_model.h5')
 
 
     # ⑥-2 学習経過をグラフに記録

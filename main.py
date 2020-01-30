@@ -1,7 +1,9 @@
-import mnist_RNN as rnn
-import mnist_CNN as cnn
+import mnist_RNN as rnn # Elman
+import mnist_CNN as cnn # Lenet, NN
 import csv
 
+
+# 自分でファイルを抽出して改造する時に利用してください
 def make_csv(readfile='./tools/mnist_test.csv', writefile="mnist_test1-9.csv"):
     outputlist = []
     with open(readfile) as f:
