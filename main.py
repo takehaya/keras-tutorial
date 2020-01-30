@@ -1,4 +1,5 @@
-import minist_RNN as rnn
+import mnist_RNN as rnn
+import mnist_CNN as cnn
 import csv
 from keras.datasets import mnist
 from keras.utils import np_utils
@@ -24,7 +25,10 @@ def main():
     # print('Y_train:', Y_train.shape)
     # print('Y_test:', Y_test.shape)
 
-    rnn.mnist()
+    rnn.mnist_bi()
+    # rnn.mnist_cat()
+
+    # cnn.mnist()
     # outputlist = []
     # with open('./tools/mnist_test.csv') as f:
     #     reader = csv.reader(f)
