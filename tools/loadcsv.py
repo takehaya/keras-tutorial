@@ -5,8 +5,6 @@ import numpy as np
 import csv
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array, load_img
-from keras.utils import np_utils
-
 
 class NncData:
     def get_csv_list(self, fname):
