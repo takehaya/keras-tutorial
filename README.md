@@ -19,8 +19,9 @@
 NNCを利用して雰囲気を掴み、それを実装することで理解を深めるのに利用できると思います。
 
 ## require
-* pipenv
-* python3
+* pipenv installed
+* python3 installed
+* keras + backend plaidml
 
 ## prepare
 
@@ -29,6 +30,9 @@ pipenv install
 
 # exec subshell
 pipenv shell 
+
+# keras backend setup
+plaidml-setup
 
 # make dataset
 cd tools
