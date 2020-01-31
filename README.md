@@ -1,4 +1,4 @@
-# NNC baseed keras turorial
+# NNC based keras turorial
 
 ## description
 これは、Sony Neural Network Console(NNC)に実装されてる, 
