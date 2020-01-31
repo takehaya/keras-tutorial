@@ -58,4 +58,4 @@ python main.py rnn_cat
 * https://ahstat.github.io/RNN-Keras-understanding-computations/
 * https://www.slideshare.net/Sony_Neural_Network_Console_Libraries/20180227recurrentneuralnetworks
 
-最後ではあるが、NNCを通じてデータを公開してくださってるソニー株式会社様、まとめる機会をくださった東北学院大の担当教員たちに感謝。
+最後ではあるが、NNCを通じてデータを公開してくれたソニー株式会社様、まとめる機会をくれた東北学院大の担当教員たちに感謝。
