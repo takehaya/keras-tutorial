@@ -1,6 +1,7 @@
 import mnist_RNN as rnn # Elman
 import mnist_CNN as cnn # Lenet, NN
 import csv
+import sys
 
 
 # 自分でファイルを抽出して改造する時に利用してください
@@ -21,9 +22,17 @@ def make_csv(readfile='./tools/mnist_test.csv', writefile="mnist_test1-9.csv"):
 
 
 def main():
-    rnn.mnist_bi()
-    # rnn.mnist_cat()
-    # cnn.mnist()
+    for args in sys.argv[1:]:
+        if args == "rnn_bi":
+            rnn.mnist_bi()
+        elif args == "rnn_cat":
+            rnn.mnist_cat()
+        elif args == "cnn_cat":
+            cnn.mnist()
+        elif args == "make_csv":
+            make_csv()
+        else:
+            print("not selected")
 
 
 if __name__ == '__main__':

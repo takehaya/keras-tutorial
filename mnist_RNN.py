@@ -134,7 +134,7 @@ def mnist_bi():
     length = 28
     n_hidden = 128
     batch_size = 64
-    epochs = 200
+    epochs = 50
 
     model = Sequential()
     model.add(SimpleRNN(n_hidden, input_shape=(length, dim_in), return_sequences=True))
